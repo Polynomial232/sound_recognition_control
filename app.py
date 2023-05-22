@@ -75,9 +75,9 @@ def put_env(env:dict):
 
 @app.post("/git/update")
 def git_update():
-    update_output = subprocess.check_output(['cd','/home/app/sound_recognition','&&','git','pull'])
+    update_output = subprocess.check_output(['git','pull'], cwd='/home/app/sound_recognition')
 
-    return update_output
+    return update_output.splitlines()
 
 if __name__=='__main__':
     uvicorn.run(app, host='0.0.0.0', port=9001)
