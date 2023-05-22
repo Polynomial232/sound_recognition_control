@@ -75,7 +75,7 @@ def put_env(env:dict):
 
 @app.post("/git/update")
 def git_update():
-    update_output = subprocess.check_output(['cd','sound_recognition','&&','git','pull'])
+    update_output = subprocess.check_output(['cd','/home/app/sound_recognition','&&','git','pull'])
 
     return update_output
 
