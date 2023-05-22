@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 import uvicorn
 import os
 from functions import get_pm2_status
@@ -10,26 +10,23 @@ app = FastAPI()
 def read_root():
     return {"Hello": "World"}
 
-@app.get("/pm2/start")
-def start_pm2():
-    os.system("pm2 start sound-recognition")
-    status = get_pm2_status()
+@app.get("/pm2/{command}")
+def start_pm2(command):
+    try:
+        os.system(f"pm2 {command} sound-recognition")
+        status_pm2 = get_pm2_status()
 
-    return {
-        "status": status.get('pm2_env').get('status')
-    }
-
-@app.get("/pm2/stop")
-def stop_pm2():
-    os.system("pm2 stop sound-recognition")
-    status = get_pm2_status()
-
-    return {
-        "status": status.get('pm2_env').get('status')
-    }
+        return {
+            "status": status_pm2.get('pm2_env').get('status')
+        }
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='failed'
+        )
 
 @app.get("/pm2/status")
-def status_pm2():
+def get_status_pm2():
     status = get_pm2_status()
 
     return {
