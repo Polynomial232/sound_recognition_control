@@ -29,7 +29,7 @@ def status_pm2():
             break
 
     return {
-        "status": status.get('status'),
+        "status": status.get('pm2_env').get('status'),
         "detail": status
     }
 
