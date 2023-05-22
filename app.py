@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 import os
 from functions import get_pm2_status
+import subprocess
 
 app = FastAPI()
 
@@ -71,6 +72,12 @@ def put_env(env:dict):
         'status': 'success',
         'env': env
     }
+
+@app.post("/git/update")
+def git_update():
+    update_output = subprocess.check_output(['cd','sound_recognition','&&','git','pull'])
+
+    return update_output
 
 if __name__=='__main__':
     uvicorn.run(app, host='0.0.0.0', port=9001)
