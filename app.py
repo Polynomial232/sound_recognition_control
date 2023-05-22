@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 import os
-import subprocess
-import json
+from functions import get_pm2_status
 
 app = FastAPI()
 
@@ -13,14 +12,7 @@ def read_root():
 @app.get("/pm2/start")
 def start_pm2():
     os.system("pm2 start sound-recognition")
-    
-    jlist = subprocess.check_output(['pm2', 'jlist'])
-    jlist = json.loads(jlist)
-
-    for i in jlist:
-        if i.get('name') == 'sound-recognition':
-            status = i
-            break
+    status = get_pm2_status()
 
     return {
         "status": status.get('pm2_env').get('status')
@@ -29,14 +21,7 @@ def start_pm2():
 @app.get("/pm2/stop")
 def stop_pm2():
     os.system("pm2 stop sound-recognition")
-    
-    jlist = subprocess.check_output(['pm2', 'jlist'])
-    jlist = json.loads(jlist)
-
-    for i in jlist:
-        if i.get('name') == 'sound-recognition':
-            status = i
-            break
+    status = get_pm2_status()
 
     return {
         "status": status.get('pm2_env').get('status')
@@ -44,13 +29,7 @@ def stop_pm2():
 
 @app.get("/pm2/status")
 def status_pm2():
-    jlist = subprocess.check_output(['pm2', 'jlist'])
-    jlist = json.loads(jlist)
-
-    for i in jlist:
-        if i.get('name') == 'sound-recognition':
-            status = i
-            break
+    status = get_pm2_status()
 
     return {
         "status": status.get('pm2_env').get('status'),
