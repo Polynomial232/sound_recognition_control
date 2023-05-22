@@ -28,7 +28,10 @@ def status_pm2():
             status = i
             break
 
-    return status
+    return {
+        "status": status.get('status'),
+        "detail": status
+    }
 
 @app.get("/pm2/logs")
 def logs_pm2(desc='true', limit=15):
