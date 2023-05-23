@@ -26,7 +26,7 @@ def start_pm2(name='sound-recognition'):
         )
 
 @app.get("/pm2/status")
-def status_pm2(name='sound-recognition'):
+def get_status_pm2(name='sound-recognition'):
     status = get_pm2_status(name)
 
     return {
