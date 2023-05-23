@@ -109,8 +109,8 @@ def git_update(control='false'):
     restart = restart_pm2(name)
 
     return {
-        restart,
-        update_output.splitlines()
+        'restart': restart,
+        'logs': update_output.splitlines()
     }
 
 if __name__=='__main__':
