@@ -11,9 +11,9 @@ def read_root():
     return {"Hello": "World"}
 
 @app.get("/pm2/{command}")
-def start_pm2(command):
+def start_pm2(command, name='sound-recognition'):
     try:
-        os.system(f"pm2 {command} sound-recognition")
+        os.system(f"pm2 {command} {name}")
         status_pm2 = get_pm2_status()
 
         return {
@@ -26,13 +26,19 @@ def start_pm2(command):
         )
 
 @app.get("/pm2/status")
-def get_status_pm2():
-    status = get_pm2_status()
+def get_status_pm2(name='sound-recognition'):
+    try:
+        status = get_pm2_status(name)
 
-    return {
-        "status": status.get('pm2_env').get('status'),
-        "detail": status
-    }
+        return {
+            "status": status.get('pm2_env').get('status'),
+            "detail": status
+        }
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='failed'
+        )
 
 @app.get("/pm2/logs")
 def logs_pm2(desc='true', limit=15):
@@ -71,8 +77,9 @@ def put_env(env:dict):
     }
 
 @app.post("/git/update")
-def git_update():
-    update_output = subprocess.check_output(['git','pull'], cwd='/home/app/sound_recognition')
+def git_update(control='false'):
+    cwd = '/home/app/sound_recognition_control' if control=='true' else '/home/app/sound_recognition'
+    update_output = subprocess.check_output(['git','pull'], cwd=cwd)
 
     return update_output.splitlines()
 
