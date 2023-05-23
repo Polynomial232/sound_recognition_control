@@ -26,7 +26,7 @@ def start_pm2(name):
         )
 
 @app.get("/pm2/status")
-def get_status_pm2():
+def status_pm2():
     status = get_pm2_status()
 
     return {
@@ -35,7 +35,7 @@ def get_status_pm2():
     }
 
 @app.get("/pm2/stop")
-def start_pm2(name):
+def stop_pm2(name):
     try:
         os.system(f"pm2 stop {name}")
         status_pm2 = get_pm2_status()
@@ -50,7 +50,7 @@ def start_pm2(name):
         )
     
 @app.get("/pm2/restart")
-def start_pm2(name):
+def restart_pm2(name):
     try:
         os.system(f"pm2 restart {name}")
         status_pm2 = get_pm2_status()
@@ -102,10 +102,16 @@ def put_env(env:dict):
 
 @app.post("/git/update")
 def git_update(control='false'):
+    name = 'sound-recognition-control' if control=='true' else 'sound-recognition'
     cwd = '/home/app/sound_recognition_control' if control=='true' else '/home/app/sound_recognition'
     update_output = subprocess.check_output(['git','pull'], cwd=cwd)
 
-    return update_output.splitlines()
+    restart = restart_pm2(name)
+
+    return {
+        restart,
+        update_output.splitlines()
+    }
 
 if __name__=='__main__':
     uvicorn.run(app, host='0.0.0.0', port=9001)
