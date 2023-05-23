@@ -10,15 +10,53 @@ app = FastAPI()
 def read_root():
     return {"Hello": "World"}
 
-@app.get("/pm2/{command}")
-def start_pm2(command, name='sound-recognition'):
+@app.get("/pm2/start")
+def start_pm2(name):
     try:
-        os.system(f"pm2 {command} {name}")
+        os.system(f"pm2 start {name}")
         status_pm2 = get_pm2_status()
 
         return {
-            "status": status_pm2.get('pm2_env').get('status'),
-            "detail": status_pm2
+            "status": status_pm2.get('pm2_env').get('status')
+        }
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='failed'
+        )
+
+@app.get("/pm2/status")
+def get_status_pm2():
+    status = get_pm2_status()
+
+    return {
+        "status": status.get('pm2_env').get('status'),
+        "detail": status
+    }
+
+@app.get("/pm2/stop")
+def start_pm2(name):
+    try:
+        os.system(f"pm2 stop {name}")
+        status_pm2 = get_pm2_status()
+
+        return {
+            "status": status_pm2.get('pm2_env').get('status')
+        }
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='failed'
+        )
+    
+@app.get("/pm2/restart")
+def start_pm2(name):
+    try:
+        os.system(f"pm2 restart {name}")
+        status_pm2 = get_pm2_status()
+
+        return {
+            "status": status_pm2.get('pm2_env').get('status')
         }
     except:
         raise HTTPException(
