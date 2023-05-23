@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException, status
 import uvicorn
-import os
 from functions import get_pm2_status
 import subprocess
 
@@ -13,7 +12,7 @@ def read_root():
 @app.get("/pm2/start")
 def start_pm2(name='sound-recognition'):
     try:
-        os.system(f"pm2 start {name}")
+        subprocess.run(["pm2","start",name])
         status_pm2 = get_pm2_status(name)
 
         return {
@@ -37,7 +36,7 @@ def get_status_pm2(name='sound-recognition'):
 @app.get("/pm2/stop")
 def stop_pm2(name='sound-recognition'):
     try:
-        os.system(f"pm2 stop {name}")
+        subprocess.run(["pm2","stop",name])
         status_pm2 = get_pm2_status(name)
 
         return {
@@ -52,7 +51,7 @@ def stop_pm2(name='sound-recognition'):
 @app.get("/pm2/restart")
 def restart_pm2(name='sound-recognition'):
     try:
-        os.system(f"pm2 restart {name}")
+        subprocess.run(["pm2","restart",name])
         status_pm2 = get_pm2_status(name)
 
         return {
