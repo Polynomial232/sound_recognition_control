@@ -11,7 +11,7 @@ def read_root():
     return {"Hello": "World"}
 
 @app.get("/pm2/start")
-def start_pm2(name):
+def start_pm2(name='sound-recognition'):
     try:
         os.system(f"pm2 start {name}")
         status_pm2 = get_pm2_status()
@@ -26,8 +26,8 @@ def start_pm2(name):
         )
 
 @app.get("/pm2/status")
-def status_pm2():
-    status = get_pm2_status()
+def status_pm2(name='sound-recognition'):
+    status = get_pm2_status(name)
 
     return {
         "status": status.get('pm2_env').get('status'),
@@ -35,7 +35,7 @@ def status_pm2():
     }
 
 @app.get("/pm2/stop")
-def stop_pm2(name):
+def stop_pm2(name='sound-recognition'):
     try:
         os.system(f"pm2 stop {name}")
         status_pm2 = get_pm2_status()
@@ -50,7 +50,7 @@ def stop_pm2(name):
         )
     
 @app.get("/pm2/restart")
-def restart_pm2(name):
+def restart_pm2(name='sound-recognition'):
     try:
         os.system(f"pm2 restart {name}")
         status_pm2 = get_pm2_status()
