@@ -13,7 +13,7 @@ def read_root():
 def start_pm2(name='sound-recognition'):
     try:
         subprocess.run(["pm2","start",name])
-        status_pm2 = get_pm2_status(name)
+        status_pm2 = get_status_pm2(name)
 
         return {
             "status": status_pm2.get('pm2_env').get('status')
@@ -52,7 +52,7 @@ def stop_pm2(name='sound-recognition'):
 def restart_pm2(name='sound-recognition'):
     try:
         subprocess.run(["pm2","restart",name])
-        status_pm2 = get_pm2_status(name)
+        status_pm2 = get_status_pm2(name)
 
         return {
             "status": status_pm2.get('pm2_env').get('status')
