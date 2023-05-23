@@ -3,7 +3,7 @@ import json
 import time
 
 def get_pm2_status(name):
-    time.sleep(1)
+    time.sleep(3)
     jlist = subprocess.check_output(['pm2', 'jlist'])
     jlist = json.loads(jlist)
 
