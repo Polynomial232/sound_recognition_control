@@ -17,22 +17,8 @@ def start_pm2(command, name='sound-recognition'):
         status_pm2 = get_pm2_status()
 
         return {
-            "status": status_pm2.get('pm2_env').get('status')
-        }
-    except:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail='failed'
-        )
-
-@app.get("/pm2/status")
-def get_status_pm2(name='sound-recognition'):
-    try:
-        status = get_pm2_status(name)
-
-        return {
-            "status": status.get('pm2_env').get('status'),
-            "detail": status
+            "status": status_pm2.get('pm2_env').get('status'),
+            "detail": status_pm2
         }
     except:
         raise HTTPException(
