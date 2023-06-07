@@ -1,3 +1,5 @@
 fastapi==0.95.2
 requests==2.30.0
 uvicorn==0.22.0
+paramiko==3.1.0
+paramiko-expect==0.3.5
