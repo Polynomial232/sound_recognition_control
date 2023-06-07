@@ -3,7 +3,8 @@ from paramiko_expect import SSHClientInteraction
 import threading
 import time
 
-with open('ip.txt', 'r', encoding='utf-8') as ip_file:
+# with open('ip.txt', 'r', encoding='utf-8') as ip_file:
+with open('ip_notes/all_ip.txt', 'r', encoding='utf-8') as ip_file:
     ip_server = ip_file.read().splitlines()
 
 def main(ip, password):
@@ -20,7 +21,7 @@ def main(ip, password):
         
         print(f'[{ip}]\tSTDOUT: {stdout.read().decode("utf8")}')
         
-        interact.send('pm2 restart all')
+        interact.send('pm2 restart sound-recognition')
         interact.send('exit')
         interact.expect()
 
@@ -43,7 +44,7 @@ def main(ip, password):
 
 strt = time.perf_counter()
 
-for loop in range(3):
+for loop in range(1):
     thread_list = []
     results = []
 

@@ -1,13 +1,14 @@
 from paramiko import SSHClient
 from paramiko_expect import SSHClientInteraction
 
-with open('ip.txt', 'r', encoding='utf-8') as ip_file:
+# with open('ip.txt', 'r', encoding='utf-8') as ip_file:
+with open('ip_notes/all_ip.txt', 'r', encoding='utf-8') as ip_file:
     ip_server = ip_file.read().splitlines()
 
-def main():
+def main(ip, password):
     client = SSHClient()
     client.load_system_host_keys()
-    client.connect(ip, username='app', password=password)
+    client.connect(ip, username='app', password=password, timeout=30)
 
     interact = SSHClientInteraction(client, timeout=10, display=True)
 
@@ -18,12 +19,12 @@ def main():
     print(f'[{ip}]\tSTDOUT: {stdout.read().decode("utf8")}')
     print('='*100)
 
-    # interact.send('pm2 restart all')
-    # interact.send('exit')
-    # interact.expect()
+    interact.send('pm2 restart sound-recognition')
+    interact.send('exit')
+    interact.expect()
 
-    # cmd_output = interact.current_output_clean
-    # print(cmd_output)
+    cmd_output = interact.current_output_clean
+    print(cmd_output)
 
     # Because they are file objects, they need to be closed
     stdin.close()
