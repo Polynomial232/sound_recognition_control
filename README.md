@@ -1,5 +1,10 @@
 # sound_recognition_control
 
+Masuk ke folder sound_recognition_control
+```bash
+cd sound_recognition_control
+```
+
 Pastikan Virtual Enviroment sudah digunakan
 ```bash
 source venv/bin/activate
