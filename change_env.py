@@ -17,6 +17,10 @@ def change_env(ip, password):
 
     interact = SSHClientInteraction(client, timeout=10, display=True)
     
+    stdin, stdout, stderr = client.exec_command('cd /home/app/sound_recognition/ && git reset --hard HEAD && git pull')
+
+    print(stdout.read().decode("utf8").splitlines())
+
     # membaca file .env lama
     stdin, stdout, stderr = client.exec_command('cd /home/app/sound_recognition/ && cat .env')
     
@@ -31,7 +35,7 @@ def change_env(ip, password):
 
     # mengubah menjadi file .env baru di server
     for text in env_arr:
-        stdin, stdout, stderr = client.exec_command(f'cd /home/app/sound_recognition/ && echo {text} >> .env')
+        _ = client.exec_command(f'cd /home/app/sound_recognition/ && echo {text} >> .env')
 
     # membaca file .env baru
     stdin, stdout, stderr = client.exec_command('cd /home/app/sound_recognition/ && cat .env')
@@ -40,7 +44,9 @@ def change_env(ip, password):
     interact.send('pm2 restart sound-recognition')
     interact.send('exit')
     interact.expect()
-    print("\n\n File .env: ")
+    print()
+    print("="*100)
+    print("\n File .env: ")
 
     # output file .env baru
     print(stdout.read().decode("utf8"))
