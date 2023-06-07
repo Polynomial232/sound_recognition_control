@@ -44,6 +44,7 @@ def change_env(ip, password):
     interact.expect()
     print()
     print("="*100)
+    print("git pull update")
     print("\n", stdout_git.read().decode("utf8"))
     print("\nFile .env: ")
 
