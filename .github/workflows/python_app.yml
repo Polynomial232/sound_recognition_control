@@ -6,11 +6,6 @@ jobs:
   Run-Ubuntu:
     runs-on: ubuntu-latest
     steps:
-    - name: Create file
+    - name: Check IP
       run: |
-        echo Hello World
-        echo Hello World > test.txt
-    - name: Check file
-      run: |
-        cat test.txt
-      
+        echo ${{ vars.ALL_IP }}      
