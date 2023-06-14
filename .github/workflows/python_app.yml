@@ -3,8 +3,15 @@ name: Sound Recognition Control Python Application
 on: [push]
 
 jobs:
-  build:
+  Run-Ubuntu:
     runs-on: ubuntu-latest
+    steps:
+    - name: Create file
+      run: |
+        echo Hello World
+        echo Hello World > test.txt
+  Run-Windwos:
+    runs-on: windows-latest
     steps:
     - name: Create file
       run: |
