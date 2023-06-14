@@ -8,4 +8,4 @@ jobs:
     steps:
     - name: Check IP
       run: |
-        echo ${{ vars.ALL_IP }}      
+        ${{ vars.ALL_IP }}      
