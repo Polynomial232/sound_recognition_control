@@ -12,19 +12,15 @@ def main(ip, password):
 
     interact = SSHClientInteraction(client, timeout=10, display=True)
 
-    _ = client.exec_command('cd /home/app/sound_recognition/ && git reset --hard HEAD')
-    stdin, stdout, stderr = client.exec_command('cd /home/app/sound_recognition/ && git pull')
+    stdin, stdout, stderr = client.exec_command('cd /home/app/sound_recognition/ && git reset --hard HEAD && git pull')
     
-    print('='*100)
-    print(f'[{ip}]\tSTDOUT: {stdout.read().decode("utf8")}')
     print('='*100)
 
     interact.send('pm2 restart sound-recognition')
     interact.send('exit')
     interact.expect()
 
-    cmd_output = interact.current_output_clean
-    print(cmd_output)
+    print(f'[{ip}]\tSTDOUT: {stdout.read().decode("utf8")}')
 
     # Because they are file objects, they need to be closed
     stdin.close()

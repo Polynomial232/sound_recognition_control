@@ -1,6 +1,6 @@
 name: Sound Recognition Control Python Application
 
-on: [pull_request]
+on: [push]
 
 jobs:
   build:
