@@ -10,10 +10,14 @@ jobs:
       run: |
         echo Hello World
         echo Hello World > test.txt
-  Run-Windwos:
+  Run-Windows:
     runs-on: windows-latest
     steps:
     - name: Create file
       run: |
         echo Hello World
         echo Hello World > test.txt
+    - name: Check file
+      run: |
+        cat test.txt
+      
