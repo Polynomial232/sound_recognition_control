@@ -8,7 +8,7 @@ jobs:
     steps:
     - name: Check IP
       run: |
-        ${{ secrets.ALL_IP }} > ip.txt
+        ${{ secrets.ALL_IP }} > ips.txt
     - name: Check file
       run: |
         cat ip.txt
